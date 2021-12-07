@@ -367,14 +367,14 @@ if __name__ == "__main__":
 
     if args.dict:
         translation_dict_file_path = args.dict.replace(
-            '&', '').replace('\'', '').strip()
+            '&', '').replace('\'', '').replace('\"', '').strip()
         engine.translation_dict_file_path = os.path.abspath(
             translation_dict_file_path)
         if not engine.get_translation_dict_contents():
             sys.exit()
 
     epub_file_path = args.epub_file_path.replace(
-        '&', '').replace('\'', '').strip()
+        '&', '').replace('\'', '').replace('\"', '').strip()
     epub_abs_file_path = os.path.abspath(epub_file_path)
     if os.path.isfile(epub_abs_file_path) and epub_abs_file_path.endswith('.epub'):
         engine.start(epub_abs_file_path)
