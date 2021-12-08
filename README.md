@@ -1,5 +1,6 @@
 ![Python Version][python-shield]
 [![MIT License][license-shield]][license-url]
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=quantrancse_epub-translator&metric=alert_status)](https://sonarcloud.io/dashboard?id=quantrancse_epub-translator)
 
 <br />
 <p align="center">
@@ -132,6 +133,6 @@ Distributed under the MIT License. See [LICENSE][license-url] for more informati
 * **Author** - [@quantrancse](https://quantrancse.github.io)
 
 <!-- MARKDOWN LINKS & IMAGES -->
-[python-shield]: https://img.shields.io/badge/python-3.9.6-brightgreen
-[license-shield]: https://img.shields.io/github/license/quantrancse/epub-translator
+[python-shield]: https://img.shields.io/badge/python-3.9.6-brightgreen?style=flat-square
+[license-shield]: https://img.shields.io/github/license/quantrancse/epub-translator?style=flat-square
 [license-url]: https://github.com/quantrancse/epub-translator/blob/master/LICENSE
