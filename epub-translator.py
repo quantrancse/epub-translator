@@ -158,7 +158,6 @@ def check_for_tool_updates():
                 f'Please upgrade the tool at: {pcolors.CYAN}https://github.com/quantrancse/epub-translator/releases{pcolors.ENDC}')
             print('-' * LINE_SIZE)
     except Exception:
-        raise
         print('Something was wrong. Can not get the tool latest update!')
 
 
