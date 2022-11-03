@@ -135,3 +135,4 @@ Distributed under the MIT License. See [LICENSE][license-url] for more informati
 [python-shield]: https://img.shields.io/badge/python-3.9.6-brightgreen?style=flat-square
 [license-shield]: https://img.shields.io/github/license/quantrancse/epub-translator?style=flat-square
 [license-url]: https://github.com/quantrancse/epub-translator/blob/master/LICENSE
+
