@@ -1,6 +1,5 @@
 ![Python Version][python-shield]
 [![MIT License][license-shield]][license-url]
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=quantrancse_epub-translator&metric=alert_status)](https://sonarcloud.io/dashboard?id=quantrancse_epub-translator)
 
 <br />
 <p align="center">
