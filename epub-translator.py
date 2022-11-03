@@ -13,7 +13,7 @@ from bs4 import BeautifulSoup as bs
 from bs4 import element
 from google_trans_new import google_translator
 
-tool_version = '1.0.0'
+tool_version = '1.0.1'
 LINE_SIZE = 90
 HEADERS = {
     'user-agent': ('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36')}
