@@ -72,6 +72,10 @@ The custom dictionary will replace the original translated text by Google Transl
 ```sh
 pip install google_trans_new requests bs4 lxml tqdm
 ```
+or
+```sh
+pip install -r requirements.txt
+```
 **Important**
 * To deal with the `json.decoder.JSONDecodeError`: https://github.com/lushan88a/google_trans_new/issues/36
 
