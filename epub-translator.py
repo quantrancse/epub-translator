@@ -330,8 +330,7 @@ class TranslatorEngine():
                 archive.write(
                     str(file_extracted_absolute_path / 'mimetype'), 'mimetype',
                     compress_type=zipfile.ZIP_STORED)
-                for file in file_extracted_absolute_path.rglob('*.*'):
-                    print(file)
+                for file in file_extracted_absolute_path.rglob('*.*'):                    
                     archive.write(
                         str(file), str(file.relative_to(file_extracted_absolute_path)),
                         compress_type=zipfile.ZIP_DEFLATED)
