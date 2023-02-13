@@ -331,7 +331,7 @@ class TranslatorEngine():
             for file in files:
                 ziph.write(os.path.join(root, file),
                            os.path.relpath(os.path.join(root, file),
-                                           os.path.join(path, '..')))
+                                           os.path.join(path, self.file_name + '_translated' + '\..')))
 
     def start(self, file_path):
         self.get_epub_file_info(file_path)
