@@ -225,9 +225,10 @@ class TranslatorEngine():
             for ele in epub_eles:
                 if isinstance(ele, element.NavigableString) and str(ele).strip() not in ['', 'html']:
                     nextpos += 1
-                    content = self.replace_translation_dict(
-                        translated_text[nextpos])
-                    ele.replace_with(element.NavigableString(content))
+                    if nextpos < len(translated_text):
+                        content = self.replace_translation_dict(
+                            translated_text[nextpos])
+                        ele.replace_with(element.NavigableString(content))
 
             with open(html_file, "w", encoding="utf-8") as w:
                 w.write(str(soup))
