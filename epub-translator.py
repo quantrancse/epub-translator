@@ -163,7 +163,7 @@ def check_for_tool_updates():
 
 class TranslatorEngine():
     def __init__(self):
-        self.dest_lang = 'es'
+        self.dest_lang = 'vi'
         self.file_path = ''
         self.file_name = ''
         self.file_extracted_path = ''
