@@ -163,7 +163,7 @@ def check_for_tool_updates():
 
 class TranslatorEngine():
     def __init__(self):
-        self.dest_lang = 'vi'
+        self.dest_lang = 'es'
         self.file_path = ''
         self.file_name = ''
         self.file_extracted_path = ''
@@ -315,18 +315,35 @@ class TranslatorEngine():
     def zip_epub(self):
         print('Making the translated epub file...', end='\r')
         try:
-            zipf = zipfile.ZipFile(
-                self.file_extracted_path + '.epub', 'w', zipfile.ZIP_DEFLATED)
-            self.zipdir(self.file_extracted_path, zipf)
-            zipf.close()
+            # zipf = zipfile.ZipFile(
+            #     self.file_extracted_path + '.epub', 'w', zipfile.ZIP_DEFLATED)
+            # self.zipdir(self.file_extracted_path, zipf)
+            # zipf.writestr("mimetype", "application/epub+zip")
+            # zipf.close()
+
+            filename = f"{self.file_extracted_path}.epub"
+            file_extracted_absolute_path = Path(self.file_extracted_path)            
+
+            with open(str(file_extracted_absolute_path / 'mimetype'), 'w') as file:
+                file.write('application/epub+zip')
+            with zipfile.ZipFile(filename, 'w') as archive:
+                archive.write(
+                    str(file_extracted_absolute_path / 'mimetype'), 'mimetype',
+                    compress_type=zipfile.ZIP_STORED)
+                for file in file_extracted_absolute_path.rglob('*.*'):                    
+                    archive.write(
+                        str(file), str(file.relative_to(file_extracted_absolute_path)),
+                        compress_type=zipfile.ZIP_DEFLATED)
+
             shutil.rmtree(self.file_extracted_path)
             print(
                 f'Making the translated epub file: [{pcolors.GREEN} DONE {pcolors.ENDC}]')
-        except Exception:
+        except Exception as e:
+            print(e)
             print(
                 f'Making the translated epub file: [{pcolors.FAIL} FAIL {pcolors.ENDC}]')
 
-    def zipdir(self, path, ziph):
+    def zipdir(self, path, ziph):        
         for root, dirs, files in os.walk(path):
             for file in files:
                 ziph.write(os.path.join(root, file),
