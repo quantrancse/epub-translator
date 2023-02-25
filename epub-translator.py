@@ -13,7 +13,7 @@ from bs4 import BeautifulSoup as bs
 from bs4 import element
 from google_trans_new import google_translator
 
-tool_version = '1.0.1'
+tool_version = '1.0.2'
 LINE_SIZE = 90
 HEADERS = {
     'user-agent': ('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36')}
@@ -323,7 +323,7 @@ class TranslatorEngine():
             # zipf.close()
 
             filename = f"{self.file_extracted_path}.epub"
-            file_extracted_absolute_path = Path(self.file_extracted_path)            
+            file_extracted_absolute_path = Path(self.file_extracted_path)
 
             with open(str(file_extracted_absolute_path / 'mimetype'), 'w') as file:
                 file.write('application/epub+zip')
@@ -331,9 +331,10 @@ class TranslatorEngine():
                 archive.write(
                     str(file_extracted_absolute_path / 'mimetype'), 'mimetype',
                     compress_type=zipfile.ZIP_STORED)
-                for file in file_extracted_absolute_path.rglob('*.*'):                    
+                for file in file_extracted_absolute_path.rglob('*.*'):
                     archive.write(
-                        str(file), str(file.relative_to(file_extracted_absolute_path)),
+                        str(file), str(file.relative_to(
+                            file_extracted_absolute_path)),
                         compress_type=zipfile.ZIP_DEFLATED)
 
             shutil.rmtree(self.file_extracted_path)
@@ -344,12 +345,12 @@ class TranslatorEngine():
             print(
                 f'Making the translated epub file: [{pcolors.FAIL} FAIL {pcolors.ENDC}]')
 
-    def zipdir(self, path, ziph):        
+    def zipdir(self, path, ziph):
         for root, dirs, files in os.walk(path):
             for file in files:
                 ziph.write(os.path.join(root, file),
                            os.path.relpath(os.path.join(root, file),
-                                           os.path.join(path, self.file_name + '_translated' + '\..')))
+                                           os.path.join(path, self.file_name + '_translated' + '\.')))
 
     def start(self, file_path):
         self.get_epub_file_info(file_path)
