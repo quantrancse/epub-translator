@@ -8,7 +8,7 @@
   <h2 align="center">epub-translator</h2>
 
   <p align="center">
-    A tool for translating epub files to different languages using the Google Translate API, with support for custom dictionaries.
+    A tool for translating epub files to different languages using the Google Translate, with support for custom dictionaries.
     <br />
     <br />
     <a href="https://rebrand.ly/epub-translator">Download</a>
@@ -39,7 +39,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-A tool for translating epub files to different languages using the Google Translate API, with support for custom dictionaries.
+A tool for translating epub files to different languages using the Google Translate, with support for custom dictionaries.
 
 ### Features
 * Autodetect source languages and support multiple destination languages.
@@ -86,7 +86,7 @@ pip install -r requirements.txt
 usage: epub-translator.py [-h] [-v] [-l dest_lang] [-d dict_path] epub_file_path
 
 A tool for translating epub files to different languages 
-using the Google Translate API, with support for custom dictionaries.
+using the Google Translate, with support for custom dictionaries.
 
 positional arguments:
   epub_file_path        path to the epub file
@@ -112,7 +112,7 @@ optional arguments:
 
 * I only tested the tool on some of my favorite books and light novels. 
 * This tool may be buggy. Some books may crash with complex epub structure or some of the text will not be translated.
-* Sometimes, too many translation requests to the Google Translate API may cause Google to ban your IP from getting its translation service shortly. If this happens, you should change your IP via VPN.
+* Sometimes, too many translation requests to the Google Translate may cause Google to ban your IP from getting its translation service shortly. If this happens, you should change your IP via VPN.
 
 <!-- CONTRIBUTING -->
 ## Contributing
