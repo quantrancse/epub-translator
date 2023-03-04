@@ -362,7 +362,7 @@ class TranslatorEngine():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description='A tool for translating epub files to different languages using the Google Translate API, with support for custom dictionaries.')
+        description='A tool for translating epub files to different languages using the Google Translate, with support for custom dictionaries.')
     parser.add_argument('-v', '--version', action='version',
                         version='epub-translator v%s' % tool_version)
     parser.add_argument('epub_file_path', type=str,
