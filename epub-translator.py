@@ -11,124 +11,15 @@ import requests
 import tqdm
 from bs4 import BeautifulSoup as bs
 from bs4 import element
+from bs4.element import NavigableString
+
+from config import LANGUAGES
 from google_trans_new import google_translator
 
 tool_version = '1.0.2'
 LINE_SIZE = 90
 HEADERS = {
     'user-agent': ('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36')}
-
-LANGUAGES = {
-    'af': 'afrikaans',
-    'sq': 'albanian',
-    'am': 'amharic',
-    'ar': 'arabic',
-    'hy': 'armenian',
-    'az': 'azerbaijani',
-    'eu': 'basque',
-    'be': 'belarusian',
-    'bn': 'bengali',
-    'bs': 'bosnian',
-    'bg': 'bulgarian',
-    'ca': 'catalan',
-    'ceb': 'cebuano',
-    'ny': 'chichewa',
-    'zh-cn': 'chinese (simplified)',
-    'zh-tw': 'chinese (traditional)',
-    'co': 'corsican',
-    'hr': 'croatian',
-    'cs': 'czech',
-    'da': 'danish',
-    'nl': 'dutch',
-    'en': 'english',
-    'eo': 'esperanto',
-    'et': 'estonian',
-    'tl': 'filipino',
-    'fi': 'finnish',
-    'fr': 'french',
-    'fy': 'frisian',
-    'gl': 'galician',
-    'ka': 'georgian',
-    'de': 'german',
-    'el': 'greek',
-    'gu': 'gujarati',
-    'ht': 'haitian creole',
-    'ha': 'hausa',
-    'haw': 'hawaiian',
-    'iw': 'hebrew',
-    'he': 'hebrew',
-    'hi': 'hindi',
-    'hmn': 'hmong',
-    'hu': 'hungarian',
-    'is': 'icelandic',
-    'ig': 'igbo',
-    'id': 'indonesian',
-    'ga': 'irish',
-    'it': 'italian',
-    'ja': 'japanese',
-    'jw': 'javanese',
-    'kn': 'kannada',
-    'kk': 'kazakh',
-    'km': 'khmer',
-    'ko': 'korean',
-    'ku': 'kurdish (kurmanji)',
-    'ky': 'kyrgyz',
-    'lo': 'lao',
-    'la': 'latin',
-    'lv': 'latvian',
-    'lt': 'lithuanian',
-    'lb': 'luxembourgish',
-    'mk': 'macedonian',
-    'mg': 'malagasy',
-    'ms': 'malay',
-    'ml': 'malayalam',
-    'mt': 'maltese',
-    'mi': 'maori',
-    'mr': 'marathi',
-    'mn': 'mongolian',
-    'my': 'myanmar (burmese)',
-    'ne': 'nepali',
-    'no': 'norwegian',
-    'or': 'odia',
-    'ps': 'pashto',
-    'fa': 'persian',
-    'pl': 'polish',
-    'pt': 'portuguese',
-    'pa': 'punjabi',
-    'ro': 'romanian',
-    'ru': 'russian',
-    'sm': 'samoan',
-    'gd': 'scots gaelic',
-    'sr': 'serbian',
-    'st': 'sesotho',
-    'sn': 'shona',
-    'sd': 'sindhi',
-    'si': 'sinhala',
-    'sk': 'slovak',
-    'sl': 'slovenian',
-    'so': 'somali',
-    'es': 'spanish',
-    'su': 'sundanese',
-    'sw': 'swahili',
-    'sv': 'swedish',
-    'tg': 'tajik',
-    'ta': 'tamil',
-    'tt': 'tatar',
-    'te': 'telugu',
-    'th': 'thai',
-    'tr': 'turkish',
-    'tk': 'turkmen',
-    'uk': 'ukrainian',
-    'ur': 'urdu',
-    'ug': 'uyghur',
-    'uz': 'uzbek',
-    'vi': 'vietnamese',
-    'cy': 'welsh',
-    'xh': 'xhosa',
-    'yi': 'yiddish',
-    'yo': 'yoruba',
-    'zu': 'zulu',
-}
 
 
 class pcolors:
@@ -141,6 +32,10 @@ class pcolors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
+
+
+pre_placeholder = "PRE_PLACEHOLDER_{}_PRE"
+code_placeholder = "CODE_PLACEHOLDER_{}_CODE"
 
 
 def check_for_tool_updates():
@@ -163,7 +58,7 @@ def check_for_tool_updates():
 
 class TranslatorEngine():
     def __init__(self):
-        self.dest_lang = 'vi'
+        self.dest_lang = 'pt'
         self.file_path = ''
         self.file_name = ''
         self.file_extracted_path = ''
@@ -211,17 +106,19 @@ class TranslatorEngine():
     def translate_html(self, html_file):
         with open(html_file, encoding='utf-8') as f:
             soup = bs(f, 'xml')
-
+            # Extract and store content inside <pre> and <code> tags
+            pre_tags_data = [(tag, tag.extract())
+                             for tag in soup.find_all('pre')]
+            code_tags_data = [(tag, tag.extract())
+                              for tag in soup.find_all('code')]
             epub_eles = list(soup.descendants)
-
             text_list = []
             for ele in epub_eles:
                 if isinstance(ele, element.NavigableString) and str(ele).strip() not in ['', 'html']:
                     text_list.append(str(ele))
-
+            # Translate content
             translated_text = self.translate_tag(text_list)
             nextpos = -1
-
             for ele in epub_eles:
                 if isinstance(ele, element.NavigableString) and str(ele).strip() not in ['', 'html']:
                     nextpos += 1
@@ -229,11 +126,22 @@ class TranslatorEngine():
                         content = self.replace_translation_dict(
                             translated_text[nextpos])
                         ele.replace_with(element.NavigableString(content))
-
+            # Insert <pre> and <code> tags back to their original positions after saving
+            for original_tag, extracted_tag in pre_tags_data:
+                if original_tag.parent:
+                    original_tag.parent.insert_before(extracted_tag)
+                else:
+                    # If the original tag doesn't have a parent, append it to the end of the document
+                    soup.append(extracted_tag)
+            for original_tag, extracted_tag in code_tags_data:
+                if original_tag.parent:
+                    original_tag.parent.insert_before(extracted_tag)
+                else:
+                    # If the original tag doesn't have a parent, append it to the end of the document
+                    soup.append(extracted_tag)
+            # Save the modified content back to the file
             with open(html_file, "w", encoding="utf-8") as w:
                 w.write(str(soup))
-            w.close()
-        f.close()
 
     def replace_translation_dict(self, text):
         if self.translation_dict:
@@ -316,12 +224,6 @@ class TranslatorEngine():
     def zip_epub(self):
         print('Making the translated epub file...', end='\r')
         try:
-            # zipf = zipfile.ZipFile(
-            #     self.file_extracted_path + '.epub', 'w', zipfile.ZIP_DEFLATED)
-            # self.zipdir(self.file_extracted_path, zipf)
-            # zipf.writestr("mimetype", "application/epub+zip")
-            # zipf.close()
-
             filename = f"{self.file_extracted_path}.epub"
             file_extracted_absolute_path = Path(self.file_extracted_path)
 
